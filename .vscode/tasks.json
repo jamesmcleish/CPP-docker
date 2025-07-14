@@ -1,0 +1,19 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build C++",
+      "type": "shell",
+      "command": "g++ *.cpp -o main",
+      "group": "build",
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Run C++",
+      "type": "shell",
+      "command": "./main",
+      "dependsOn": "Build C++",
+      "group": "test"
+    }
+  ]
+}
