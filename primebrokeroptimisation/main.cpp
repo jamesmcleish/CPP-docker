@@ -68,46 +68,4 @@ public:
 
 };
 
-int main() {
-    Account account("Alpha");
-
-    account.deposit(Currency::USD, 100000.0);
-
-    String securityName = "CorpBond123";
-    price = 980.0;
-    unsigned int quantity = 50;
-    bool isBuy = true;
-    SecurityType securityType = SecurityType::CorporateBond;
-    double accruedInterest = 500.0;
-    Currency currency = Currency::USD;
-
-    Trade buyTrade {
-        securityName,
-        price,
-        quantity,
-        isBuy,
-        securityType,
-        accruedInterest,
-        currency
-    };
-
-    String sellSecurityName = "CorpBond123";
-    double sellPrice = 990.0;
-    unsigned int sellQuantity = 20;
-    bool isSell = false;
-    SecurityType sellSecurityType = SecurityType::CorporateBond;
-    double sellAccruedInterest = 200.0;
-    Currency sellCurrency = Currency::USD;
-
-    Trade sellTrade {
-        sellSecurityName,
-        sellPrice,
-        sellQuantity,
-        isSell,
-        sellSecurityType,
-        sellAccruedInterest,
-        sellCurrency
-    };
-}
-
 
