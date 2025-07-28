@@ -1,15 +1,31 @@
+<section>
+  <h2>Executive Summary</h2>
+  <p>
+    This plan outlines the implementation of an execution optimization framework for a hedge fund operating across multiple prime brokers. The primary objective is to develop and deploy a cost reduction algorithm that intelligently allocates trades to prime brokers, minimizing overall execution costs while respecting key constraints such as liquidity, risk limits, and regulatory requirements. By integrating advanced optimization techniques, the system will enhance decision-making in trade assignment, balancing cost efficiency with operational feasibility. Successful implementation will lead to significant reductions in trading expenses, improved execution quality, and a stronger competitive position for the hedge fund.
+  </p>
+</section>
+
+<section>
+  <h2>Algorithm Overview: Validation and Fulfillment Stages</h2>
+  <p>
+    The diagram below provides a high-level overview of the execution optimization algorithm. It illustrates the two key stages of the process: the Validation Phase, where constraints and business rules are applied to ensure feasibility, and the Fulfillment Phase, where optimization priorities guide the selection of the best trade assignments. This structured approach ensures that all trade allocations comply with necessary restrictions while achieving cost-efficient execution across multiple prime brokers.
+  </p>
+
+
 ```mermaid
 flowchart TD
     %% Node Definitions
-    A(["<b>Trades</b>"]) --> B
-    B(["<b>Feasibility Phase</b><br><i>Constraint Programming</i><br><font color='#000000' size='2'>Eliminate account/trade assignments<br>that violate constraints</font>"]) --> C
-    C(["<b>Optimization Phase</b><br><i>LP / MIP</i><br><font color='#000000' size='2'>Select among feasible assignments<br>based on optimization priorities</font>"]) --> D
-    D(["<b>Assignment to PB Accounts</b>"])
+    A(["<b>Trade</b>"]) --> B
+    B(["<b>Validation Phase</b><br><i>Rule-based Checks</i><br><font color='#000000' size='2'>Check accounts against metrics with hard constraints for viability and eliminate prime brokerages from selection.</font>"]) --> C
+    C(["<b>Fulfillment Phase</b><br><i>Inventory & Logistics</i><br><font color='#000000' size='2'>Allocate stock and schedule delivery<br>based on availability and priority</font>"]) --> D
+    D(["<b>Execution</b>"])
+    
 
     %% Inputs
     subgraph Inputs
-        E["<b>Constraints</b>"] --> B
-        F["<b>Optimization<br>Priorities</b>"] --> C
+        G(["<b>Accounts information</b>"])-->B
+        E["<b>Metrics with constraints</b>"] --> B
+        F["<b>Metrics with optimisation priorities</b>"] --> C
     end
 
     %% Styles
@@ -19,7 +35,9 @@ flowchart TD
     style D fill:#64b5f6,color:#0d47a1,stroke:#0d47a1,stroke-width:1px
     style E fill:#f0f4c3,color:#827717,stroke:#827717,stroke-width:1px
     style F fill:#fce4ec,color:#880e4f,stroke:#880e4f,stroke-width:1px
+
 ```
+</section>
 
 ```mermaid
 flowchart TD
