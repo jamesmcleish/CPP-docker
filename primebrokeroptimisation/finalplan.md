@@ -1,4 +1,4 @@
-<h1>🔄 Prime Broker Trade Assignment Engine</h1>
+<h1> Prime Broker Trade Assignment Engine</h1>
 
 <p>
 This document outlines a full solution design for assigning a batch of fixed-income trades to Prime Brokerage (PB) accounts under hard constraints and optimization priorities. The process ensures constraint compliance while attempting to minimize business-critical metrics like financing cost.
@@ -6,7 +6,7 @@ This document outlines a full solution design for assigning a batch of fixed-inc
 
 <hr/>
 
-<h2>🚩 Problem Context</h2>
+<h2> Problem Context</h2>
 
 <p>
 In managing multiple PB accounts, each trade must be assigned to an account that meets all risk and compliance constraints. Accounts also differ in how they finance trades, which affects cost and exposure. Our objective is to find an assignment that:
@@ -22,7 +22,7 @@ Constraints vary by account and metric; optimization priorities are also account
 
 <hr/>
 
-<h2>📥 Inputs</h2>
+<h2> Inputs</h2>
 
 <ul>
   <li><strong>Trades</strong> (0 to 200 per batch)
@@ -49,7 +49,7 @@ Constraints vary by account and metric; optimization priorities are also account
   </li>
 </ul>
 
-<h2>📤 Outputs</h2>
+<h2> Outputs</h2>
 
 <ul>
   <li>Account assignment for each trade</li>
@@ -59,9 +59,9 @@ Constraints vary by account and metric; optimization priorities are also account
 
 <hr/>
 
-<h2>🧠 Algorithm Design</h2>
+<h2> Algorithm Design</h2>
 
-<h3>🎯 Goals</h3>
+<h3> Goals</h3>
 <ol>
   <li><strong>Primary:</strong> Ensure all metric-based constraints are satisfied</li>
   <li><strong>Secondary:</strong> Optimize metric scores according to investment team priorities</li>
@@ -72,7 +72,7 @@ Constraints vary by account and metric; optimization priorities are also account
 The assignment problem is best formulated as a <strong>Mixed Integer Program (MIP)</strong>, solved using <a href="https://developers.google.com/optimization">Google OR-Tools</a>. MIPs allow for binary decision variables (assign trade to account), hard linear constraints (per-metric), and objective functions over weighted sums.
 </p>
 
-<h3>📉 Metric Computation</h3>
+<h3> Metric Computation</h3>
 
 <pre><code>M<sub>a,m</sub> = ∑ x<sub>i,a</sub> × V<sub>i</sub> × ω<sub>a,m,s(i)</sub></code></pre>
 
@@ -82,14 +82,14 @@ The assignment problem is best formulated as a <strong>Mixed Integer Program (MI
   <li><code>ω<sub>a,m,s</sub></code>: metric sensitivity per account/metric/security</li>
 </ul>
 
-<h3>✅ Constraints</h3>
+<h3> Constraints</h3>
 
 <pre><code>
 M<sub>a,m</sub> ≤ C<sub>a,m</sub>  (if upper bound exists)
 M<sub>a,m</sub> ≥ C<sub>a,m</sub>  (if lower bound exists)
 </code></pre>
 
-<h3>🏆 Objective</h3>
+<h3> Objective</h3>
 
 <pre><code>
 maximize ∑ OP<sub>a,m</sub> × M<sub>a,m</sub>
@@ -97,7 +97,7 @@ maximize ∑ OP<sub>a,m</sub> × M<sub>a,m</sub>
 
 Only <em>unconstrained</em> metrics with non-zero priorities are used in the objective.
 
-<h3>🔁 Fallback Strategy</h3>
+<h3> Fallback Strategy</h3>
 <ol>
   <li>Try full optimization (all constraints and objectives)</li>
   <li>If infeasible or timeout, remove objectives → solve only for feasibility</li>
@@ -105,7 +105,7 @@ Only <em>unconstrained</em> metrics with non-zero priorities are used in the obj
 
 <hr/>
 
-<h2>🧱 Code & Architecture</h2>
+<h2> Code & Architecture</h2>
 
 <ul>
   <li><code>build_model(trades, accounts, constraints, priorities)</code>: returns OR-Tools solver and variable objects</li>
@@ -114,13 +114,13 @@ Only <em>unconstrained</em> metrics with non-zero priorities are used in the obj
   <li><code>extract_solution(x)</code>: maps binary variables to output assignments</li>
 </ul>
 
-<h3>📦 Modular Components</h3>
+<h3> Modular Components</h3>
 <ul>
-  <li>📊 <strong>Trade Loader:</strong> parses trade files and builds position values</li>
-  <li>📐 <strong>Metric Engine:</strong> computes all per-account metric adjustments</li>
-  <li>⚙️ <strong>Constraint Manager:</strong> generates constraints and prioritizes objectives</li>
-  <li>🧮 <strong>OR-Tools Solver:</strong> runs optimization and fallback</li>
-  <li>📤 <strong>Reporter:</strong> outputs assignment, metrics, and diagnostics</li>
+  <li> <strong>Trade Loader:</strong> parses trade files and builds position values</li>
+  <li> <strong>Metric Engine:</strong> computes all per-account metric adjustments</li>
+  <li> <strong>Constraint Manager:</strong> generates constraints and prioritizes objectives</li>
+  <li> <strong>OR-Tools Solver:</strong> runs optimization and fallback</li>
+  <li> <strong>Reporter:</strong> outputs assignment, metrics, and diagnostics</li>
 </ul>
 
 <hr/>
@@ -135,29 +135,29 @@ Only <em>unconstrained</em> metrics with non-zero priorities are used in the obj
 
 <hr/>
 
-<h2>💼 Business Practices & Longevity</h2>
+<h2> Business Practices & Longevity</h2>
 
-<h3>🔍 Monitoring</h3>
+<h3> Monitoring</h3>
 <ul>
   <li>Audit logs of solver inputs/outputs</li>
   <li>Feasibility fallback logs and alerts</li>
   <li>Daily constraint breach tracking</li>
 </ul>
 
-<h3>🧪 Testing</h3>
+<h3> Testing</h3>
 <ul>
   <li>Unit tests for each component</li>
   <li>Scenario-based validation (e.g., all buys, all sells, constraint edge cases)</li>
 </ul>
 
-<h3>📈 Operationalization</h3>
+<h3> Operationalization</h3>
 <ul>
   <li>Run as a daily batch or triggered pipeline (e.g., Airflow or GitHub Actions)</li>
   <li>Dry-run mode for traders to preview impact</li>
   <li>Configurable via YAML or JSON files for constraints, weights, and limits</li>
 </ul>
 
-<h3>🔄 Maintenance</h3>
+<h3> Maintenance</h3>
 <ul>
   <li>Modular code to support adding new metrics or security types</li>
   <li>Periodic review of metric weightings with investment team</li>
@@ -165,7 +165,7 @@ Only <em>unconstrained</em> metrics with non-zero priorities are used in the obj
 
 <hr/>
 
-<h2>🧠 Pseudocode Summary</h2>
+<h2> Pseudocode Summary</h2>
 
 <pre><code>
 for each trade i:
@@ -190,8 +190,11 @@ if failed or timeout:
 
 <hr/>
 
-<h2>📌 Conclusion</h2>
+<h2> Conclusion</h2>
 
 <p>
 This design ensures compliance with Prime Broker constraints while minimizing business costs. It is modular, auditable, and robust to scale and input volatility. Through clear separation of trade logic, metric management, and optimization, it supports future adaptability and reliability in live operations.
 </p>
+
+
+Treat the cash positions in accounts as bonds, then the value fits into the model
